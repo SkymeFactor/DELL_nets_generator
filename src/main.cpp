@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 	auto input = read_input_file(in_filename);
 	int N = input.first;
 	IPv4 address_in_file = input.second;
-	std::cout << "N = " << N << "; IP = " << address_in_file << '\n';
+	std::cout << "N = " << N << "; IP = " << address_in_file.to_string() << '\n';
 	
 	std::set<Subnet> subnets = generate_n_random_subnets(N);
 	Subnet parent_net{address_in_file, 32};
