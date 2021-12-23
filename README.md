@@ -20,8 +20,7 @@ $ cat autogen.txt
 10.20.0.0/16
 1.2.3.0/24
 ```
-The Solution is built inside a docker container, run instructions:
-
+The Solution is pre-built inside a docker container, in order to run follow the instructions:
 ```
 $ ls data/
 in.txt
@@ -32,4 +31,9 @@ $ ls data/
 in.txt out.txt autogen.txt
 $
 ```
-Temporarily building a container is possible by running `./tools/run_docker.sh` from the project root.
+Or, it can be built from the project root, like shown below:
+```
+$ make
+$ ./run_docker
+```
+
