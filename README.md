@@ -25,7 +25,7 @@ The Solution is built inside a docker container, run instructions:
 ```
 $ ls data/
 in.txt
-$ docker run -v `pwd`/data:/data ${YOUR_NAME}/${YOUR_IMAGE}:${IMAGE_VERSION}
+$ docker run -v `pwd`/data:/data skymefactor/subnet_gen:latest
 $ echo $?
 0
 $ ls data/
