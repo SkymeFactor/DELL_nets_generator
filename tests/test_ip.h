@@ -1,3 +1,4 @@
+#pragma once
 #include "test_suite.h"
 #include "ip.h"
 
@@ -18,7 +19,7 @@ TEST_GROUP_START(TG_IPv4) {
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_constructors_equality_cast) {
+    TEST_CASE_START(IPv4_constructors_equality_test) {
 
         const IPv4 val1{"192.168.73.15"};
         const IPv4 val2{(uint32_t)val1};
@@ -26,14 +27,14 @@ TEST_GROUP_START(TG_IPv4) {
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_equality_test_positive) {
+    TEST_CASE_START(IPv4_equality_test_true) {
 
         const IPv4 val{"192.168.73.15"};
         ASSERT(val == val);
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_equality_test_negative) {
+    TEST_CASE_START(IPv4_equality_test_false) {
 
         const IPv4 val1{"192.168.73.15"};
 	    const IPv4 val2{"192.168.0.0"};
@@ -41,7 +42,7 @@ TEST_GROUP_START(TG_IPv4) {
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_greater_then_positive) {
+    TEST_CASE_START(IPv4_greater_then_true) {
 
         const IPv4 val1{"192.168.73.15"};
 	    const IPv4 val2{"192.168.0.15"};
@@ -49,7 +50,7 @@ TEST_GROUP_START(TG_IPv4) {
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_greater_then_negative) {
+    TEST_CASE_START(IPv4_greater_then_false) {
 
         const IPv4 val1{"192.168.73.15"};
 	    const IPv4 val2{"192.168.74.15"};
@@ -57,7 +58,7 @@ TEST_GROUP_START(TG_IPv4) {
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_less_then_positive) {
+    TEST_CASE_START(IPv4_less_then_true) {
 
         const IPv4 val1{"192.168.0.15"};
 	    const IPv4 val2{"192.168.73.15"};
@@ -65,7 +66,7 @@ TEST_GROUP_START(TG_IPv4) {
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_less_then_negative) {
+    TEST_CASE_START(IPv4_less_then_false) {
 
         const IPv4 val1{"192.168.74.15"};
 	    const IPv4 val2{"192.168.73.15"};
@@ -73,19 +74,35 @@ TEST_GROUP_START(TG_IPv4) {
 
     } TEST_CASE_END(),
 
-    TEST_CASE_START(IPv4_greater_then_zero) {
+    TEST_CASE_START(IPv4_greater_then_zero_true) {
 
         const IPv4 val1{"192.168.73.15"};
 	    const IPv4 val2{"0.0.0.0"};
         ASSERT(val1 > val2);
 
     } TEST_CASE_END(),
+    
+    TEST_CASE_START(IPv4_greater_then_zero_false) {
 
-    TEST_CASE_START(IPv4_less_then_maximum) {
+        const IPv4 val1{"192.168.73.15"};
+	    const IPv4 val2{"0.0.0.0"};
+        ASSERT(!(val2 > val1));
+
+    } TEST_CASE_END(),
+
+    TEST_CASE_START(IPv4_less_then_maximum_true) {
 
         const IPv4 val1{"192.168.0.1"};
 	    const IPv4 val2{"255.255.255.255"};
         ASSERT(val1 < val2);
+
+    } TEST_CASE_END(),
+
+    TEST_CASE_START(IPv4_less_then_maximum_false) {
+
+        const IPv4 val1{"192.168.0.1"};
+	    const IPv4 val2{"255.255.255.255"};
+        ASSERT(!(val2 < val1));
 
     } TEST_CASE_END(),
 
