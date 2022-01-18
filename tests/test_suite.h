@@ -49,7 +49,7 @@ public:
         name(group_name), tests(list_of_tests) {};
 
     TestStats run() {
-        std::cout << "[========] Running " << tests.size() << " tests from Test Group " << name << "\n";
+        std::cout << "[========================] Running " << tests.size() << " tests from Test Group " << name << "\n";
         
         for (auto it: tests) {
             bool is_ok = false;
@@ -58,7 +58,7 @@ public:
             try {
                 is_ok = it.test_func(params);
             } catch (std::exception& e) {
-                std::cerr << "[ ERROR ] Unhandled exception in test " << it.test_name << ": " << e.what() << '\n';
+                std::cerr << "\n[ ERROR ] Unhandled exception in test " << it.test_name << ": " << e.what() << '\n';
             }
 
             if (is_ok) {
@@ -71,7 +71,7 @@ public:
             it.teardown(params);
         }
 
-        std::cout << "[--------] " << num_passed << " tests passed out of " << tests.size() << "\n\n";
+        std::cout << "[------------------------] " << num_passed << " / " << tests.size() << " tests passed\n\n";
         return TestStats{num_passed, tests.size()};
     };
 
