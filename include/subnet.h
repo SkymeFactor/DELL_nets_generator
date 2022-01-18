@@ -9,23 +9,23 @@ private:
 	IPv4 _address;
 	IPv4 _net_address;
 	IPv4 _broadcast;
-	int  _prefix = 0;
+	unsigned int _prefix = 0;
 public:
     Subnet() = default;
-	Subnet(const IPv4& address, const int prefix): _address{address} {
+	Subnet(const IPv4& address, const unsigned int prefix): _address{address} {
 		set_prefix(prefix);
 	};
 
 	std::string to_string() const;
 	IPv4 get_first_valid() const;
 	IPv4 get_last_valid() const;
-	int get_prefix() const;
+	unsigned int get_prefix() const;
 	bool is_ip_within(const IPv4& address) const;
 
 	bool operator<(const Subnet& net) const;
 	bool operator==(const Subnet& net) const;
 
-	void set_prefix(const int prefix);
+	void set_prefix(const unsigned int prefix);
 };
 
 
@@ -45,7 +45,7 @@ IPv4 Subnet::get_last_valid() const {
 	return _broadcast;
 }
 
-int Subnet::get_prefix() const {
+unsigned int Subnet::get_prefix() const {
 	return _prefix;
 }
 
@@ -61,10 +61,11 @@ bool Subnet::operator==(const Subnet& net) const {
 	return (_prefix == net.get_prefix()) && (get_first_valid() == net.get_first_valid());
 }
 
-void Subnet::set_prefix(const int prefix) {
-	uint32_t mask = 0xFFFFFFFF << (32 - prefix);
-	_prefix = prefix;
-	if (prefix == 0) {
+void Subnet::set_prefix(const unsigned int prefix) {
+	if (prefix > 32) _prefix = 32;
+	else _prefix = prefix;
+	uint32_t mask = 0xFFFFFFFF << (32 - _prefix);
+	if (_prefix == 0) {
 		_net_address = IPv4(0);
 		_broadcast = IPv4(0xFFFFFFFF);
 	} else {
