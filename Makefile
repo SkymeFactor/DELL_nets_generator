@@ -5,7 +5,7 @@
 # Compiler options
 CXX=g++
 CXXFLAGS=-g -Wall -std=c++17
-LD_FLAGS=-DDEBUG
+LD_FLAGS=
 
 # Directories
 SRC_DIR=src/
