@@ -5,6 +5,46 @@
 
 TEST_GROUP_START(TG_Subnet) {
 
+    TEST_CASE_START(Subnet_to_string_cast_with_valid_prefix) {
+
+        const Subnet sb{IPv4("192.168.73.15"), 22};
+        ASSERT(sb.to_string() == std::string("192.168.72.0/22"));
+
+    } TEST_CASE_END(),
+    
+
+    TEST_CASE_START(Subnet_to_string_cast_with_prefix_zero) {
+        
+        const Subnet sb{IPv4("192.168.73.15"), 0};
+        ASSERT(sb.to_string() == std::string("0.0.0.0/0"));
+
+    } TEST_CASE_END(),
+    
+
+    TEST_CASE_START(Subnet_to_string_cast_with_prefix_max) {
+        
+        const Subnet sb{IPv4("192.168.73.15"), 32};
+        ASSERT(sb.to_string() == std::string("192.168.73.15/32"));
+
+    } TEST_CASE_END(),
+    
+
+    TEST_CASE_START(Subnet_to_string_cast_with_invalid_prefix_big) {
+        
+        const Subnet sb{IPv4("192.168.73.15"), 1000};
+        ASSERT(sb.to_string() == std::string("192.168.73.15/32"));
+
+    } TEST_CASE_END(),
+    
+
+    TEST_CASE_START(Subnet_to_string_cast_with_invalid_prefix_negative) {
+        
+        const Subnet sb(IPv4("192.168.73.15"), -1000);
+        ASSERT(sb.to_string() == std::string("192.168.73.15/32"));
+
+    } TEST_CASE_END(),
+    
+
     TEST_CASE_START(Get_subnet_prefix_valid) {
 
         const Subnet sb{IPv4("192.168.73.15"), 22};
@@ -49,7 +89,7 @@ TEST_GROUP_START(TG_Subnet) {
 
         Subnet sb{IPv4("192.168.73.15"), 22};
         sb.set_prefix(16);
-        ASSERT(sb.get_prefix() == 16);
+        ASSERT(sb.get_prefix() == 16 && sb.to_string() == std::string("192.168.0.0/16"));
 
     } TEST_CASE_END(),
 
@@ -58,7 +98,7 @@ TEST_GROUP_START(TG_Subnet) {
 
         Subnet sb{IPv4("192.168.73.15"), 22};
         sb.set_prefix(0);
-        ASSERT(sb.get_prefix() == 0);
+        ASSERT(sb.get_prefix() == 0 && sb.to_string() == std::string("0.0.0.0/0"));
 
     } TEST_CASE_END(),
 
@@ -67,7 +107,7 @@ TEST_GROUP_START(TG_Subnet) {
 
         Subnet sb{IPv4("192.168.73.15"), 22};
         sb.set_prefix(32);
-        ASSERT(sb.get_prefix() == 32);
+        ASSERT(sb.get_prefix() == 32 && sb.to_string() == std::string("192.168.73.15/32"));
 
     } TEST_CASE_END(),
 
@@ -76,7 +116,7 @@ TEST_GROUP_START(TG_Subnet) {
 
         Subnet sb{IPv4("192.168.73.15"), 22};
         sb.set_prefix(1000);
-        ASSERT(sb.get_prefix() == 32);
+        ASSERT(sb.get_prefix() == 32 && sb.to_string() == std::string("192.168.73.15/32"));
 
     } TEST_CASE_END(),
 
@@ -85,47 +125,7 @@ TEST_GROUP_START(TG_Subnet) {
 
         Subnet sb{IPv4("192.168.73.15"), 22};
         sb.set_prefix(-1000);
-        ASSERT(sb.get_prefix() == 32);
-
-    } TEST_CASE_END(),
-
-
-    TEST_CASE_START(Subnet_to_string_cast_with_valid_prefix) {
-
-        const Subnet sb{IPv4("192.168.73.15"), 22};
-        ASSERT(sb.to_string() == std::string("192.168.72.0/22"));
-
-    } TEST_CASE_END(),
-    
-
-    TEST_CASE_START(Subnet_to_string_cast_with_prefix_zero) {
-        
-        const Subnet sb{IPv4("192.168.73.15"), 0};
-        ASSERT(sb.to_string() == std::string("0.0.0.0/0"));
-
-    } TEST_CASE_END(),
-    
-
-    TEST_CASE_START(Subnet_to_string_cast_with_prefix_max) {
-        
-        const Subnet sb{IPv4("192.168.73.15"), 32};
-        ASSERT(sb.to_string() == std::string("192.168.73.15/32"));
-
-    } TEST_CASE_END(),
-    
-
-    TEST_CASE_START(Subnet_to_string_cast_with_invalid_prefix_big) {
-        
-        const Subnet sb{IPv4("192.168.73.15"), 1000};
-        ASSERT(sb.to_string() == std::string("192.168.73.15/32"));
-
-    } TEST_CASE_END(),
-    
-
-    TEST_CASE_START(Subnet_to_string_cast_with_invalid_prefix_negative) {
-        
-        const Subnet sb(IPv4("192.168.73.15"), -1000);
-        ASSERT(sb.to_string() == std::string("192.168.73.15/32"));
+        ASSERT(sb.get_prefix() == 32 && sb.to_string() == std::string("192.168.73.15/32"));
 
     } TEST_CASE_END(),
 
