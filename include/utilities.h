@@ -8,16 +8,16 @@
 
 
 
-std::set<Subnet> generate_n_random_subnets(int N) {
+std::set<Subnet> generate_n_random_subnets(unsigned const int N) {
     std::random_device device;
     std::default_random_engine engine(device());
     std::uniform_int_distribution<uint32_t> dist_address(1, UINT32_MAX - 1);
-    std::uniform_int_distribution<int> dist_prefix(1, 31);
+    std::uniform_int_distribution<unsigned int> dist_prefix(1, 31);
 
     std::set<Subnet> n_random;
     
     while (n_random.size() < static_cast<size_t>(N)) {
-        Subnet subnet(dist_address(engine), dist_prefix(engine));
+        Subnet subnet{dist_address(engine), dist_prefix(engine)};
         n_random.insert(subnet);
     }
 
@@ -25,8 +25,8 @@ std::set<Subnet> generate_n_random_subnets(int N) {
 }
 
 
-std::pair<int, IPv4> read_input_file(const std::string& filename) {
-	int N;
+std::pair<unsigned int, IPv4> read_input_file(const std::string& filename) {
+	unsigned int N;
 	std::string address;
 	std::ifstream fin{filename};
     if (fin.fail()) {

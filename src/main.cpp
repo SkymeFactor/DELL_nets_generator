@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 	}
 	
 	auto input = read_input_file(in_filename);
-	int N = input.first;
+	unsigned int N = input.first;
 	IPv4 address_in_file = input.second;
 	std::cout << "N = " << N << "; IP = " << address_in_file.to_string() << '\n';
 	
