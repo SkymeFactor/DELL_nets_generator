@@ -19,23 +19,28 @@ std::set<Subnet> generate_n_random_subnets_fake(unsigned int N = 0) {
 }
 
 
+Subnet& find_narrowest_stub(std::set<Subnet>& test_sample, Subnet& parent_net) {
+    for (int i = 31; i >= 0; --i) {
+        parent_net.set_prefix(i);
+        auto it = test_sample.find(parent_net);
+        if (it != test_sample.end()) {
+            parent_net = *it;
+            break;
+        }
+    }
+
+    return parent_net;
+}
+
+
 TEST_GROUP_START(TG_Functionality) {
     
     TEST_CASE_START(Narrow_Subnet_ip_zero) {
 
         std::set<Subnet> test_sample = generate_n_random_subnets_fake(10);
         Subnet parent_net{IPv4("0.0.0.0"), 32};
-        
-        for (int i = 31; i >= 0; --i) {
-            parent_net.set_prefix(i);
-            auto it = test_sample.find(parent_net);
-            if (it != test_sample.end()) {
-                parent_net = *it;
-                break;
-            }
-        }
 
-        ASSERT(parent_net.to_string() == std::string("0.0.0.0/0"));
+        ASSERT(find_narrowest_stub(test_sample, parent_net).to_string() == std::string("0.0.0.0/0"));
 
     } TEST_CASE_END(),
 
@@ -44,17 +49,8 @@ TEST_GROUP_START(TG_Functionality) {
 
         std::set<Subnet> test_sample = generate_n_random_subnets_fake(10);
         Subnet parent_net{IPv4("255.255.255.255"), 32};
-        
-        for (int i = 31; i >= 0; --i) {
-            parent_net.set_prefix(i);
-            auto it = test_sample.find(parent_net);
-            if (it != test_sample.end()) {
-                parent_net = *it;
-                break;
-            }
-        }
 
-        ASSERT(parent_net.to_string() == std::string("128.0.0.0/2"));
+        ASSERT(find_narrowest_stub(test_sample, parent_net).to_string() == std::string("128.0.0.0/2"));
 
     } TEST_CASE_END(),
 
@@ -63,17 +59,8 @@ TEST_GROUP_START(TG_Functionality) {
 
         std::set<Subnet> test_sample = generate_n_random_subnets_fake(10);
         Subnet parent_net{IPv4("23.72.192.50"), 32};
-        
-        for (int i = 31; i >= 0; --i) {
-            parent_net.set_prefix(i);
-            auto it = test_sample.find(parent_net);
-            if (it != test_sample.end()) {
-                parent_net = *it;
-                break;
-            }
-        }
 
-        ASSERT(parent_net.to_string() == std::string("23.64.0.0/12"));
+        ASSERT(find_narrowest_stub(test_sample, parent_net).to_string() == std::string("23.64.0.0/12"));
 
     } TEST_CASE_END(),
 
@@ -82,17 +69,8 @@ TEST_GROUP_START(TG_Functionality) {
 
         std::set<Subnet> test_sample = generate_n_random_subnets_fake(10);
         Subnet parent_net{IPv4("127.168.0.1"), 32};
-        
-        for (int i = 31; i >= 0; --i) {
-            parent_net.set_prefix(i);
-            auto it = test_sample.find(parent_net);
-            if (it != test_sample.end()) {
-                parent_net = *it;
-                break;
-            }
-        }
 
-        ASSERT(parent_net.to_string() == std::string("0.0.0.0/0"));
+        ASSERT(find_narrowest_stub(test_sample, parent_net).to_string() == std::string("0.0.0.0/0"));
 
     } TEST_CASE_END(),
 
@@ -101,17 +79,8 @@ TEST_GROUP_START(TG_Functionality) {
 
         std::set<Subnet> test_sample = generate_n_random_subnets_fake(10);
         Subnet parent_net{IPv4("26.35.20.152"), 29};
-        
-        for (int i = 31; i >= 0; --i) {
-            parent_net.set_prefix(i);
-            auto it = test_sample.find(parent_net);
-            if (it != test_sample.end()) {
-                parent_net = *it;
-                break;
-            }
-        }
 
-        ASSERT(parent_net.to_string() == std::string("26.35.20.152/29"));
+        ASSERT(find_narrowest_stub(test_sample, parent_net).to_string() == std::string("26.35.20.152/29"));
 
     } TEST_CASE_END()
 
